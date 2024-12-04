@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crossfit kalkulator czasu ćwiczeń</title>
+  <style>
+    /* Resetujemy domyślne style */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Ustawienie responsywności dla małych ekranów */
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f3f4f6;
+    }
+
+    h2 {
+      font-family: Arial, sans-serif;
+      font-size: 24px;
+      text-align: center;
+      margin: 20px 0;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #4CAF50; /* Grubość i kolor linii */
+    }
+
+    .copyrights {
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      text-align: center;
+      margin: 20px 0;
+      padding-top: 10px;
+      border-top: 1px solid #4CAF50; /* Grubość i kolor linii */
+    }
+
+    .container {
+      width: 90vw; /* 90% szerokości ekranu */
+      max-width: 400px; /* Maksymalna szerokość kontenera */
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    input {
+      width: 100%; /* Szerokość 100% kontenera */
+      padding: 12px;
+      margin: 8px 0; /* Marginesy między polami */
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background-color: #89df78;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+<script>
+function getInputValue(id) {
+  var inputValue = document.getElementById(id).valueAsNumber;
+  if (isNaN(inputValue)) {
+    document.getElementById("error").innerHTML = "Przeprasza mam problem z wartością WorkTime = "+str(inputValue);
+    inputValue = 25;
+    return inputValue;
+  }
+  return inputValue;
+}
+
+function calculateTime() {
+  var workTime = getInputValue("WorkTime");
+  var changeTime = getInputValue("ChangeTime");
+  var repeatCount = getInputValue("RepeatCount");
+  
+
+  var summaryTime = (workTime + changeTime) * repeatCount;
+  document.getElementById("TotalTime2").value = formatTime(summaryTime);
+  document.getElementById("SummaryTime").innerHTML = summaryTime.toString()+" sekund";
+  return summaryTime;
+}
+
+function formatTime(seconds) {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+
+  // Formatowanie jako hh:mm:ss
+  var result = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  if (hours > 0) {
+    result = `${hours.toString().padStart(2, '0')}:`+result;
+  }
+  return result;
+}
+
+// Funkcja do dynamicznej reakcji na zmiany w polach
+function setupDynamicUpdates() {
+  const inputs = ["WorkTime", "ChangeTime", "RepeatCount"];
+  inputs.forEach(id => {
+    document.getElementById(id).addEventListener("input", calculateTime);
+  });
+  // Zaktualizowanie TotalTime przy załadowaniu strony
+  calculateTime();
+}
+
+// Uruchomienie dynamicznego nasłuchiwania po załadowaniu strony
+document.addEventListener("DOMContentLoaded", setupDynamicUpdates);
+</script>
+</head>
+<body>
+  <div class="container">
+    <h2>Crossfit<br>Czas Ćwiczeń</h2>
+
+    <label for="WorkTime">Czas pracy (sekundy):</label>
+    <input type="number" id="WorkTime" name="liczba" min="5" max="200" step="1" value="25">
+    <br>
+    <label for="ChangeTime">Czas przerwy (sekundy):</label>
+    <input type="number" id="ChangeTime" name="zmiana" min="2" max="100" step="1" value="15">
+    <br>
+    <label for="RepeatCount">Ilość stacji:</label>
+    <input type="number" id="RepeatCount" name="stacje" min="2" max="40" step="1" value="10">
+    <br><br>
+    <label for="TotalTime2">Całkowity czas:</label>
+    <input type="time" id="TotalTime2" readonly>
+    <br>
+    <p id="SummaryTime"></p><br>
+    <input type="button" onclick="calculateTime()" value="Policz">
+    <br>
+    <p id="error"></p>
+    <br>
+    <div class="copyrights">Prawa autorskie: &copy; 2024 No More Second</div>
+  </div>
+
+</body>
+</html>

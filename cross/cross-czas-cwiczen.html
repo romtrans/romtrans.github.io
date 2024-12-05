@@ -42,20 +42,9 @@
       appearance: textfield; /* Dla nowoczesnych przeglądarek */
     }
 
-    .copyrights {
-      font-family: Arial, sans-serif;
-      font-size: 10px;
-      text-align: center;
-      margin: 20px 0;
-      padding-top: 10px;
-      padding-bottom: 0px;
-      border-top: 1px solid #4CAF50; /* Grubość i kolor linii */
-    }
-    .version {
-      font-family: Arial, sans-serif;
-      font-size: 8px;
-      text-align: center;
-      margin: 0px 0;
+    input[type="button"] {
+      color: black;
+      background-color: #e7eddc;
     }
 
     .container {
@@ -69,7 +58,7 @@
     }
 
     input {
-      width: 100%; /* Szerokość 100% kontenera */
+      width: 70%; /* Szerokość 70% kontenera */
       padding: 12px;
       margin: 8px 0; /* Marginesy między polami */
       border: 1px solid #ccc;
@@ -79,7 +68,7 @@
 
     input:disabled {
       width: 50%;
-      background-color: #caeac4; /* Zielony kolor tła */
+      background-color: #ACE1AF; /* Zielony kolor tła */
       color: #040; /* Ciemnozielony kolor tekstu */
       border: 1px solid #ccc; /* Delikatna ramka */
       cursor: not-allowed; /* Ikona zakazu */
@@ -99,7 +88,33 @@
     }
 
     button:hover {
-      background-color: #45a049;
+      background-color: #80c296;
+    }
+
+    .inputButton {
+      width: 10%;
+      border: 1px solid #ccc;
+      color: black;
+      background-color: #e7eddc;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .copyrights {
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      text-align: center;
+      margin: 20px 0;
+      padding-top: 10px;
+      padding-bottom: 0px;
+      border-top: 1px solid #4CAF50; /* Grubość i kolor linii */
+    }
+    .version {
+      font-family: Arial, sans-serif;
+      font-size: 8px;
+      text-align: center;
+      margin: 0px 0;
     }
   </style>
 <script>
@@ -168,6 +183,31 @@ function estimateFinishTime(workoutSec) {
   return `${localTime}`;
 }
 
+function incInpuValue(id, step) {
+  const input = document.getElementById(id);
+  const min = parseInt(input.min, 10) || 0;
+  const max = parseInt(input.max, 10) || 0;
+  const value = parseInt(input.value, 10) || 0;
+
+  if (min == 0 || max == 0 || value == 0) {
+    return;
+  }
+
+  if (value + step <= max && value + step >= min) {
+    input.value = value + step;
+  }
+}
+
+function incValue(id) {
+  incInpuValue(id, +1);
+  calculateTime();
+}
+
+function decValue(id) {
+  incInpuValue(id, -1);
+  calculateTime();
+}
+
 // Funkcja do dynamicznej reakcji na zmiany w polach
 function setupDynamicUpdates() {
   const inputs = ["WorkTime", "BreakTime", "RepeatCount"];
@@ -186,14 +226,20 @@ document.addEventListener("DOMContentLoaded", setupDynamicUpdates);
   <div class="container">
     <h2>Crossfit<br>Czas ćwiczeń</h2>
 
-    <label for="WorkTime">Czas pracy (sekundy):</label>
-    <input type="number" id="WorkTime" name="czas_pracy" min="5" max="200" step="1" value="25">
+      <label for="WorkTime">Czas pracy (sekundy):</label><br>
+      <button class="inputButton" onclick="decValue('WorkTime')">-</button>
+      <input type="number" id="WorkTime" name="czas_pracy" min="5" max="200" step="1" value="25">
+      <button class="inputButton" onclick="incValue('WorkTime')">+</button>
     <br>
-    <label for="BreakTime">Czas przerwy (sekundy):</label>
-    <input type="number" id="BreakTime" name="przerwa" min="2" max="100" step="1" value="15">
+      <label for="BreakTime">Czas przerwy (sekundy):</label><br>
+      <button class="inputButton" onclick="decValue('BreakTime')">-</button>
+      <input type="number" id="BreakTime" name="przerwa" min="2" max="100" step="1" value="15">
+      <button class="inputButton" onclick="incValue('BreakTime')">+</button>
     <br>
-    <label for="RepeatCount">Ilość stacji:</label>
-    <input type="number" id="RepeatCount" name="ilosc_stacji" min="2" max="40" step="1" value="10">
+      <label for="RepeatCount">Ilość stacji:</label><br>
+      <button class="inputButton" onclick="decValue('RepeatCount')">-</button>
+      <input type="number" id="RepeatCount" name="ilosc_stacji" min="2" max="40" step="1" value="10">
+      <button class="inputButton" onclick="incValue('RepeatCount')">+</button>
     <br><br>
     <label for="TotalTime">Całkowity czas:</label>
     <input type="text" id="TotalTime" disabled>
@@ -208,7 +254,7 @@ document.addEventListener("DOMContentLoaded", setupDynamicUpdates);
     <br>
     <a href="https://buycoffee.to/no-more-second" target="_blank"><img src="https://buycoffee.to/img/share-button-primary.png" style="width: 117px; height: 30px" alt="Postaw mi kawę na buycoffee.to"></a>
     <div class="copyrights">Prawa autorskie: &copy; 2024 No More Second</div>
-    <div class="version">wersja 1.0.1</div>
+    <div class="version">wersja 1.0.2</div>
   </div>
 
 </body>

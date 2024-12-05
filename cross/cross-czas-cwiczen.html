@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Language" content="pl">
+  <meta name="keywords" content="Crossfit, kalkulator, całkowity czas ćwiczeń, czas pracy, narzędzie">
+  <meta name="description" content="Crossfit - Kalkulator czasu ćwiczeń na zajęcia">
+  <meta name="Author" content="No More Second">
+  <meta name="Robots" content="NOFOLLOW">
   <title>Crossfit kalkulator czasu ćwiczeń</title>
   <style>
     /* Resetujemy domyślne style */
@@ -31,13 +36,26 @@
       border-bottom: 2px solid #4CAF50; /* Grubość i kolor linii */
     }
 
+    input[type="number"] {
+      -moz-appearance: textfield; /* Dla przeglądarek Firefox */
+      -webkit-appearance: none; /* Dla przeglądarek WebKit (np. Safari, Chrome) */
+      appearance: textfield; /* Dla nowoczesnych przeglądarek */
+    }
+
     .copyrights {
       font-family: Arial, sans-serif;
       font-size: 10px;
       text-align: center;
       margin: 20px 0;
       padding-top: 10px;
+      padding-bottom: 0px;
       border-top: 1px solid #4CAF50; /* Grubość i kolor linii */
+    }
+    .version {
+      font-family: Arial, sans-serif;
+      font-size: 8px;
+      text-align: center;
+      margin: 0px 0;
     }
 
     .container {
@@ -59,6 +77,15 @@
       font-size: 16px;
     }
 
+    input:disabled {
+      width: 50%;
+      background-color: #caeac4; /* Zielony kolor tła */
+      color: #040; /* Ciemnozielony kolor tekstu */
+      border: 1px solid #ccc; /* Delikatna ramka */
+      cursor: not-allowed; /* Ikona zakazu */
+      font-weight: bold;
+    }
+
     button {
       width: 100%;
       padding: 12px;
@@ -77,10 +104,11 @@
   </style>
 <script>
 function getInputValue(id) {
-  var inputValue = document.getElementById(id).valueAsNumber;
+  var input = document.getElementById(id);
+  var inputValue = input.valueAsNumber;
   if (isNaN(inputValue)) {
-    document.getElementById("error").innerHTML = "Przeprasza mam problem z wartością WorkTime = "+str(inputValue);
-    inputValue = 25;
+    document.getElementById("error").innerHTML = `Przeprasza mam problem z wartością ${id}(${input.value}) = `+inputValue;
+    inputValue = 10;
     return inputValue;
   }
   return inputValue;
@@ -88,32 +116,53 @@ function getInputValue(id) {
 
 function calculateTime() {
   var workTime = getInputValue("WorkTime");
-  var changeTime = getInputValue("ChangeTime");
+  var breakTime = getInputValue("BreakTime");
   var repeatCount = getInputValue("RepeatCount");
   
 
-  var summaryTime = (workTime + changeTime) * repeatCount;
-  document.getElementById("TotalTime2").value = formatTime(summaryTime);
+  var summaryTime = (workTime + breakTime) * repeatCount;
+  const finishTime = estimateFinishTime(summaryTime);
+  document.getElementById("TotalTime").value = formatTime(summaryTime);
+  document.getElementById("FinishTime").value = finishTime;
   document.getElementById("SummaryTime").innerHTML = summaryTime.toString()+" sekund";
   return summaryTime;
 }
 
+function timeComponents(seconds) {
+  var hours = Math.floor(seconds / 3600);
+  var mins = Math.floor((seconds % 3600) / 60);
+  var secs = seconds % 60;
+  return {hours, mins, secs}
+}
+
 function formatTime(seconds) {
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const secs = seconds % 60;
+  const time = timeComponents(seconds);
 
   // Formatowanie jako hh:mm:ss
-  var result = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  if (hours > 0) {
-    result = `${hours.toString().padStart(2, '0')}:`+result;
-  }
+  var result = `${time.mins.toString().padStart(2, '0')}:${time.secs.toString().padStart(2, '0')}`;
+  result = `${time.hours.toString()}:`+result;
   return result;
+}
+
+function estimateFinishTime(workoutSec) {
+  const now = new Date();
+  var comp = timeComponents(workoutSec);
+
+  comp.hours += now.getHours();
+  comp.mins += now.getMinutes(); 
+  comp.secs += now.getSeconds();
+
+  now.setHours(comp.hours);
+  now.setMinutes(comp.mins);
+  now.setSeconds(comp.secs);
+
+  const localTime = now.toLocaleTimeString(); // Lokalny czas w formacie hh:mm:ss
+  return `${localTime}`;
 }
 
 // Funkcja do dynamicznej reakcji na zmiany w polach
 function setupDynamicUpdates() {
-  const inputs = ["WorkTime", "ChangeTime", "RepeatCount"];
+  const inputs = ["WorkTime", "BreakTime", "RepeatCount"];
   inputs.forEach(id => {
     document.getElementById(id).addEventListener("input", calculateTime);
   });
@@ -127,19 +176,22 @@ document.addEventListener("DOMContentLoaded", setupDynamicUpdates);
 </head>
 <body>
   <div class="container">
-    <h2>Crossfit<br>Czas Ćwiczeń</h2>
+    <h2>Crossfit<br>Czas ćwiczeń</h2>
 
     <label for="WorkTime">Czas pracy (sekundy):</label>
     <input type="number" id="WorkTime" name="liczba" min="5" max="200" step="1" value="25">
     <br>
-    <label for="ChangeTime">Czas przerwy (sekundy):</label>
-    <input type="number" id="ChangeTime" name="zmiana" min="2" max="100" step="1" value="15">
+    <label for="BreakTime">Czas przerwy (sekundy):</label>
+    <input type="number" id="BreakTime" name="zmiana" min="2" max="100" step="1" value="15">
     <br>
     <label for="RepeatCount">Ilość stacji:</label>
     <input type="number" id="RepeatCount" name="stacje" min="2" max="40" step="1" value="10">
     <br><br>
-    <label for="TotalTime2">Całkowity czas:</label>
-    <input type="time" id="TotalTime2" readonly>
+    <label for="TotalTime">Całkowity czas:</label>
+    <input type="text" id="TotalTime" disabled>
+    <br>
+    <label for="FinishTime">Zakończymy o:</label>
+    <input type="text" id="FinishTime" disabled>
     <br>
     <p id="SummaryTime"></p><br>
     <input type="button" onclick="calculateTime()" value="Policz">
@@ -147,6 +199,7 @@ document.addEventListener("DOMContentLoaded", setupDynamicUpdates);
     <p id="error"></p>
     <br>
     <div class="copyrights">Prawa autorskie: &copy; 2024 No More Second</div>
+    <div class="version">wersja 1.0.1</div>
   </div>
 
 </body>

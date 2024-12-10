@@ -136,6 +136,11 @@ function setErrorLog(failureInfo) {
   document.getElementById("error").innerHTML = failureInfo;
 }
 
+function clockDelay(time) {
+  var delay = 1 // [sek] clock delay (at the end when timer Bips and then again starts counting down)
+  return time + delay
+}
+
 function calculateTime() {
   setErrorLog("");
 
@@ -143,7 +148,7 @@ function calculateTime() {
   var breakTime = getInputValue("BreakTime");
   var repeatCount = getInputValue("RepeatCount");
 
-  var summaryTime = (workTime + breakTime) * repeatCount;
+  var summaryTime = (clockDelay(workTime) + clockDelay(breakTime)) * repeatCount;
   const finishTime = estimateFinishTime(summaryTime);
   document.getElementById("TotalTime").value = formatTime(summaryTime);
   document.getElementById("FinishTime").value = finishTime;
@@ -254,7 +259,7 @@ document.addEventListener("DOMContentLoaded", setupDynamicUpdates);
     <br>
     <a href="https://buycoffee.to/no-more-second" target="_blank"><img src="https://buycoffee.to/img/share-button-primary.png" style="width: 117px; height: 30px" alt="Postaw mi kawę na buycoffee.to"></a>
     <div class="copyrights">Prawa autorskie: &copy; 2024 No More Second</div>
-    <div class="version">wersja 1.0.2</div>
+    <div class="version">wersja 1.0.3</div>
   </div>
 
 </body>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Language" content="pl">
+  <meta name="keywords" content="Crossfit, kalkulator, całkowity czas ćwiczeń, czas pracy, narzędzie">
+  <meta name="description" content="Crossfit - Kalkulator czasu ćwiczeń na zajęcia">
+  <meta name="Author" content="No More Second">
+  <meta name="Robots" content="NOFOLLOW">
+  <title>Crossfit kalkulator czasu ćwiczeń</title>
+  <link rel="stylesheet" href="./content/style.css" type="text/css">
+  <style type="text/css"></style>
+  <script src="./content/settings.js"></script>
+  <script src="./content/scripts.js"></script>
+<script>
+</script>
+</head>
+<body>
+  <div class="container">
+    <h2>Crossfit<br>Czas ćwiczeń</h2>
+
+      <label for="WorkTime">Czas pracy (sekundy):</label><br>
+      <button class="inputButton" onclick="decValue('WorkTime')">-</button>
+      <input type="number" id="WorkTime" name="czas_pracy" min="5" max="200" step="1" value="25">
+      <button class="inputButton" onclick="incValue('WorkTime')">+</button>
+    <br>
+      <label for="BreakTime">Czas przerwy (sekundy):</label><br>
+      <button class="inputButton" onclick="decValue('BreakTime')">-</button>
+      <input type="number" id="BreakTime" name="przerwa" min="2" max="100" step="1" value="15">
+      <button class="inputButton" onclick="incValue('BreakTime')">+</button>
+    <br>
+      <label for="RepeatCount">Ilość stacji:</label><br>
+      <button class="inputButton" onclick="decValue('RepeatCount')">-</button>
+      <input type="number" id="RepeatCount" name="ilosc_stacji" min="2" max="40" step="1" value="10">
+      <button class="inputButton" onclick="incValue('RepeatCount')">+</button>
+    <br><br>
+    <label for="TotalTime">Całkowity czas:</label>
+    <input type="text" id="TotalTime" disabled>
+    <br>
+    <label for="FinishTime">Zakończymy o:</label>
+    <input type="text" id="FinishTime" disabled>
+    <br>
+    <p id="SummaryTime"></p><br>
+    <input type="button" onclick="calculateTime()" value="Policz">
+    <br>
+    <p id="error"></p>
+    <br>
+    <a href="https://buycoffee.to/no-more-second" target="_blank"><img src="https://buycoffee.to/img/share-button-primary.png" style="width: 117px; height: 30px" alt="Postaw mi kawę na buycoffee.to"></a>
+    <div class="copyrights">Prawa autorskie: &copy; 2024 No More Second</div>
+    <div class="version">wersja 1.0.2</div>
+  </div>
+
+</body>
+</html>

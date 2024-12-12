@@ -38,11 +38,19 @@ input[type="button"] {
 .container {
   width: 90vw; /* 90% szerokości ekranu */
   max-width: 400px; /* Maksymalna szerokość kontenera */
+  height: 100vh; /* Maksymalna szerokość kontenera */
   padding: 20px;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
+  /*height: 600px;*/
+  overflow-y: auto;
+}
+
+#SeriesContainer {
+  height: 400px;  /* Wysokość kontenera */
+  overflow-y: auto;  /* Włącz pionowe przewijanie */
 }
 
 input {

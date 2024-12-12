@@ -19,21 +19,10 @@
 <body>
   <div class="container">
     <h2>Crossfit<br>Czas ćwiczeń</h2>
+  
+    <div id="SeriesContainer"></div>
+    <button onclick="addSerie()">Dodaj serię</button>
 
-      <label for="WorkTime">Czas pracy (sekundy):</label><br>
-      <button class="inputButton" onclick="decValue('WorkTime')">-</button>
-      <input type="number" id="WorkTime" name="czas_pracy" min="5" max="200" step="1" value="25">
-      <button class="inputButton" onclick="incValue('WorkTime')">+</button>
-    <br>
-      <label for="BreakTime">Czas przerwy (sekundy):</label><br>
-      <button class="inputButton" onclick="decValue('BreakTime')">-</button>
-      <input type="number" id="BreakTime" name="przerwa" min="2" max="100" step="1" value="15">
-      <button class="inputButton" onclick="incValue('BreakTime')">+</button>
-    <br>
-      <label for="RepeatCount">Ilość stacji:</label><br>
-      <button class="inputButton" onclick="decValue('RepeatCount')">-</button>
-      <input type="number" id="RepeatCount" name="ilosc_stacji" min="2" max="40" step="1" value="10">
-      <button class="inputButton" onclick="incValue('RepeatCount')">+</button>
     <br><br>
     <label for="TotalTime">Całkowity czas:</label>
     <input type="text" id="TotalTime" disabled>
@@ -48,7 +37,7 @@
     <br>
     <a href="https://buycoffee.to/no-more-second" target="_blank"><img src="https://buycoffee.to/img/share-button-primary.png" style="width: 117px; height: 30px" alt="Postaw mi kawę na buycoffee.to"></a>
     <div class="copyrights">Prawa autorskie: &copy; 2024 No More Second</div>
-    <div class="version">wersja 1.0.2</div>
+    <div class="version">wersja 1.1.0</div>
   </div>
 
 </body>

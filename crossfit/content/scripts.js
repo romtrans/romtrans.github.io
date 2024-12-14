@@ -18,12 +18,13 @@ function setErrorLog(failureInfo) {
 }
 
 class SerieView {
-  constructor(workoutSerie, serieId, workTimeId = "WorkTime", breakTimeId = "BreakTime", repeatCountId = "RepeatCount") {
+  constructor(workoutSerie, serieId, workTimeId = "WorkTime", breakTimeId = "BreakTime", repeatCountId = "RepeatCount", restTimeId="RestTime") {
     this.serie = workoutSerie;
     this.serieId = serieId;
     this.workTimeId = `${workTimeId}_${serieId}`;
     this.breakTimeId = `${breakTimeId}_${serieId}`;
     this.repeatCountId = `${repeatCountId}_${serieId}`;
+    this.restTimeId = `${restTimeId}_${serieId}`;
     this.totalTimeId = `TotalTime_${serieId}`;
     this.finishTimeId = `FinishTime_${serieId}`;
     this.errorId = `error_${serieId}`;
@@ -44,23 +45,26 @@ class SerieView {
     var workTime = getInputValue(this.workTimeId);
     var breakTime = getInputValue(this.breakTimeId);
     var repeatCount = getInputValue(this.repeatCountId);
+    var restTime = getInputValue(this.restTimeId);
     this.serie.workTime = workTime;
     this.serie.breakTime = breakTime;
     this.serie.repeatCount = repeatCount;
+    this.serie.restTime = restTime;
 
     const summaryTime = this.serie.calculateTime();
     const finishTime  = estimateFinishTime(summaryTime);
 
     this.totalTime = summaryTime;
 
-    this.getElementById(this.totalTimeId).value = formatTime(summaryTime);
+    const secondsText = "  ("+summaryTime.toString()+translateText("seconds_unit")+")";
+    this.getElementById(this.totalTimeId).value = formatTime(summaryTime) + secondsText;
     //this.getElementById(this.finishTimeId).value = finishTime;
     let error = this.getElementById(this.errorId);
     
     if (this.errorLog) {
-      error.textContent = this.errorLog;
+      error.textContent = this.errorLog + "<br>";
     } else {
-      error.textContent = summaryTime.toString()+" sekund";
+      //error.textContent = summaryTime.toString()+" sekund";
     }
 
     calculateTime();
@@ -94,37 +98,38 @@ class SerieView {
   generateHTML() {
     return `
       <div class="serie" id="serie_${this.serieId}">
-        <h3>Seria ${this.serieId+1}</h3>
-        
-        <label for="${this.workTimeId}">Czas pracy (sekundy):</label><br>
-        <button class="inputButton" onclick="serieViews[${this.serieId}].decValue('${this.workTimeId}')">-</button>
-        <input type="number" id="${this.workTimeId}" name="czas_pracy" min="5" max="200" step="1" value="25">
-        <button class="inputButton" onclick="serieViews[${this.serieId}].incValue('${this.workTimeId}')">+</button>
-        <br>
-        
-        <label for="${this.breakTimeId}">Czas przerwy (sekundy):</label><br>
-        <button class="inputButton" onclick="serieViews[${this.serieId}].decValue('${this.breakTimeId}')">-</button>
-        <input type="number" id="${this.breakTimeId}" name="przerwa" min="2" max="100" step="1" value="15">
-        <button class="inputButton" onclick="serieViews[${this.serieId}].incValue('${this.breakTimeId}')">+</button>
-        <br>
-        
-        <label for="${this.repeatCountId}">Ilość stacji:</label><br>
-        <button class="inputButton" onclick="serieViews[${this.serieId}].decValue('${this.repeatCountId}')">-</button>
-        <input type="number" id="${this.repeatCountId}" name="ilosc_stacji" min="2" max="40" step="1" value="10">
-        <button class="inputButton" onclick="serieViews[${this.serieId}].incValue('${this.repeatCountId}')">+</button>
-        <br><br>
-        
-        <label for="${this.totalTimeId}">Czas serii:</label>
-        <input type="text" id="${this.totalTimeId}" disabled>
-        <br>
-        
-        <!--label for="${this.finishTimeId}">Zakończymy o:</label>
-        <input type="text" id="${this.finishTimeId}" disabled>
-        <br-->
-        
-        <p id="SummaryTime_${this.serieId}"></p><br>
-        <p id="${this.errorId}"></p>
-        <br>
+      <h3 data-i18n="serie_label">Seria ${this.serieId+1}</h3>
+      
+      <label for="${this.workTimeId}" data-i18n="work_time_label">Czas pracy (sekundy):</label><br>
+      <button class="inputButton" onclick="serieViews[${this.serieId}].decValue('${this.workTimeId}')">-</button>
+      <input type="number" id="${this.workTimeId}" name="czas_pracy" min="5" max="200" step="1" value="25">
+      <button class="inputButton" onclick="serieViews[${this.serieId}].incValue('${this.workTimeId}')">+</button>
+      <br>
+      
+      <label for="${this.breakTimeId}" data-i18n="break_time_label">Czas przerwy (sekundy):</label><br>
+      <button class="inputButton" onclick="serieViews[${this.serieId}].decValue('${this.breakTimeId}')">-</button>
+      <input type="number" id="${this.breakTimeId}" name="przerwa" min="2" max="100" step="1" value="15">
+      <button class="inputButton" onclick="serieViews[${this.serieId}].incValue('${this.breakTimeId}')">+</button>
+      <br>
+      
+      <label for="${this.repeatCountId}" data-i18n="repeat_count_label">Ilość stacji:</label><br>
+      <button class="inputButton" onclick="serieViews[${this.serieId}].decValue('${this.repeatCountId}')">-</button>
+      <input type="number" id="${this.repeatCountId}" name="ilosc_stacji" min="2" max="40" step="1" value="10">
+      <button class="inputButton" onclick="serieViews[${this.serieId}].incValue('${this.repeatCountId}')">+</button>
+      <br>
+
+      <label for="${this.restTimeId}" data-i18n="rest_time_label">Czas odpoczynku (sekundy):</label><br>
+      <button class="inputButton" onclick="serieViews[${this.serieId}].decValue('${this.restTimeId}')">-</button>
+      <input type="number" id="${this.restTimeId}" name="ilosc_stacji" min="10" max="360" step="1" value="60">
+      <button class="inputButton" onclick="serieViews[${this.serieId}].incValue('${this.restTimeId}')">+</button>
+      <br><br>
+      
+      <label for="${this.totalTimeId}" data-i18n="time_series_label">Czas serii:</label>
+      <input type="text" id="${this.totalTimeId}" disabled>
+      <br>
+      
+      <p id="${this.errorId}" data-i18n="error_message"></p>
+      <br>
       </div>
     `;
   }
@@ -151,7 +156,7 @@ let serieViews = []; // Globalna tablica przechowująca instancje SerieView
 function addSerie() {
   const container = document.getElementById("SeriesContainer");
   const dynamicSerieId = container.children.length;
-  var workout = new WorkoutSerie(25, 15, 10, 1);
+  var workout = new WorkoutSerie(25, 15, 10, 60, 1);
   var newSerieView = new SerieView(workout, dynamicSerieId);
 
   serieViews.push(newSerieView); // Dodajemy nową serię do globalnej tablicy
@@ -160,10 +165,11 @@ function addSerie() {
 }
 
 class WorkoutSerie {
-  constructor(workTime, breakTime, repeatCount, delay) {
+  constructor(workTime, breakTime, repeatCount, restTime, delay) {
     this.workTime = workTime; // czas pracy w sekundach
     this.breakTime = breakTime; // czas przerwy w sekundach
     this.repeatCount = repeatCount; // liczba powtórzeń
+    this.restTime = restTime;
     this.clockDelay = 1; // opóźnienie zegara w sekundach
   }
 
@@ -175,10 +181,10 @@ class WorkoutSerie {
   // Oblicza całkowity czas na podstawie parametrów
   calculateTime() {
     // Przypisanie wartości do zmiennych lokalnych
-    const { workTime, breakTime, repeatCount } = this;
+    const { workTime, breakTime, repeatCount, restTime } = this;
     
     // Obliczenie czasu
-    return (this.delay(workTime) + this.delay(breakTime)) * repeatCount;
+    return (this.delay(workTime) + this.delay(breakTime)) * repeatCount + this.delay(restTime);
   }
 }
 
@@ -195,11 +201,19 @@ function calculateTime() {
   serieViews.forEach((serieView) => {
     totalTime += serieView.totalTime;
   });
+
   const finishTime = estimateFinishTime(totalTime);
-  document.getElementById("TotalTime").value = formatTime(totalTime);
+  const secondsText = "  ("+totalTime.toString()+translateText("seconds_unit")+")";
+  
+  document.getElementById("TotalTime").value = formatTime(totalTime)+secondsText;
   document.getElementById("FinishTime").value = finishTime;
-  document.getElementById("SummaryTime").innerHTML = totalTime.toString()+" sekund";
   return totalTime;
+}
+
+function calculateAction() {
+  serieViews.forEach((serieView) => {
+    serieView.updateUI();
+  });
 }
 
 function timeComponents(seconds) {

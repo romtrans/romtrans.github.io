@@ -13,31 +13,42 @@
   <style type="text/css"></style>
   <script src="./content/settings.js"></script>
   <script src="./content/scripts.js"></script>
+  <script src="./content/localisations.js"></script>
 <script>
 </script>
 </head>
 <body>
   <div class="container">
-    <h2>Crossfit<br>Czas ćwiczeń</h2>
+    
+    <div class="header">
+      <h2 class="title" data-i18n="title">Crossfit<br>Czas ćwiczeń</h2>
+      <form class="language-select">
+        <label for="language" data-i18n="language_label">Język:</label>
+        <select id="language">
+          <option value="pl">Polski</option><option value="en">English</option><option value="jp">日本語</option>
+        </select>
+      </form>
+    </div>
+    <br>
   
     <div id="SeriesContainer"></div>
-    <button onclick="addSerie()">Dodaj serię</button>
-
+    <button onclick="addSerie()" data-i18n="add_series">Dodaj serię</button>
     <br><br>
-    <label for="TotalTime">Całkowity czas:</label>
+
+    <label for="TotalTime" data-i18n="total_time_label">Całkowity czas:</label>
     <input type="text" id="TotalTime" disabled>
     <br>
-    <label for="FinishTime">Zakończymy o:</label>
+    <label for="FinishTime" data-i18n="finish_time_label">Zakończymy o:</label>
     <input type="text" id="FinishTime" disabled>
-    <br>
-    <p id="SummaryTime"></p><br>
-    <input type="button" onclick="calculateTime()" value="Policz">
+    <br><br>
+    <button onclick="calculateAction()" data-i18n="calculate_button">Przelicz</button>
     <br>
     <p id="error"></p>
     <br>
+
     <a href="https://buycoffee.to/no-more-second" target="_blank"><img src="https://buycoffee.to/img/share-button-primary.png" style="width: 117px; height: 30px" alt="Postaw mi kawę na buycoffee.to"></a>
-    <div class="copyrights">Prawa autorskie: &copy; 2024 No More Second</div>
-    <div class="version">wersja 1.1.0</div>
+    <div class="copyrights" data-i18n="copyrights">Prawa autorskie: &copy; 2024 No More Second</div>
+    <div class="version" data-i18n="version">wersja 1.1.0</div>
   </div>
 
 </body>

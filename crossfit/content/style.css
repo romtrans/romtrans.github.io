@@ -111,6 +111,37 @@ button:hover {
   background-color: #80c296;
 }
 
+.input-container {
+  width: 70%;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.input-container input {
+  width: 100%; /* Szerokość 70% kontenera */
+  padding: 12px;
+  margin: 8px 0; /* Marginesy między polami */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.input-container .unit {
+  position: absolute;
+  right: 30px; /* Odstęp od prawej */
+  color: #888;
+  pointer-events: none; /* Tekst nie zakłóca wpisywania */
+  font-size: 14px;
+  transition: all 0.3s ease; /* Płynne przesunięcie */
+}
+
+.input-container input:placeholder-shown + .unit {
+  right: auto; /* Dezaktywuj pozycjonowanie z prawej strony */
+  left: 14px; /* Przesuń na lewą stronę */
+  color: #aaa; /* Opcjonalna zmiana koloru */
+}
+
 .inputButton {
   width: 12%;
   border: 1px solid #ccc;

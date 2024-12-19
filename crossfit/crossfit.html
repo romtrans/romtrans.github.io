@@ -10,8 +10,10 @@
   <meta name="Robots" content="NOFOLLOW">
   <title>Crossfit kalkulator czasu ćwiczeń</title>
   <link rel="stylesheet" href="./content/style.css" type="text/css">
+  <link rel="stylesheet" href="./content/popupstyle.css" type="text/css">
   <style type="text/css"></style>
   <script src="./content/settings.js"></script>
+  <script src="./content/settingspopup.js"></script>
   <script src="./content/scripts.js"></script>
   <script src="./content/localisations.js"></script>
 <script>
@@ -21,6 +23,9 @@
   <div class="container">
     
     <div class="header">
+      <div class="popup-container">
+        <button id="SettingsButton"><span>&#9881;</span></button>       
+      </div>
       <h2 class="title" data-i18n="title">Crossfit<br>Czas ćwiczeń</h2>
       <form class="language-select">
         <label for="language" data-i18n="language_label">Język:</label>
@@ -30,10 +35,12 @@
       </form>
     </div>
     <br>
-  
+
     <div id="SeriesContainer"></div>
     <button onclick="addSerie()" data-i18n="add_series">Dodaj serię</button>
-    <br><br>
+    <br>
+    <p id="error"></p>
+    <br>
 
     <label for="TotalTime" data-i18n="total_time_label">Całkowity czas:</label>
     <input type="text" id="TotalTime" disabled>
@@ -42,13 +49,12 @@
     <input type="text" id="FinishTime" disabled>
     <br><br>
     <button onclick="calculateAction()" data-i18n="calculate_button">Przelicz</button>
-    <br>
-    <p id="error"></p>
-    <br>
+    <br><br>
+    
 
     <a href="https://buycoffee.to/no-more-second" target="_blank"><img src="https://buycoffee.to/img/share-button-primary.png" style="width: 117px; height: 30px" alt="Postaw mi kawę na buycoffee.to"></a>
     <div class="copyrights" data-i18n="copyrights">Prawa autorskie: &copy; 2024 No More Second</div>
-    <div class="version" data-i18n="version">wersja 1.1.1</div>
+    <div class="version" data-i18n="version">wersja 1.2.1</div>
   </div>
 
 </body>

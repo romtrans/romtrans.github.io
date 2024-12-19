@@ -16,7 +16,7 @@ class SettingsStorageInterface {
 // Implement CookieSettingsStorage
 class CookieSettingsStorage extends SettingsStorageInterface {
   setItem(key, value, options = {}) {
-    const days = options.days || 7;
+    const days = options.days || 21;
     const date = new Date();
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
     const expires = "expires=" + date.toUTCString();
@@ -77,15 +77,10 @@ class SettingsStorage {
   }
 }
 
-// Example usage
-// Uncomment and adapt as needed
-// const useLocalStorage = true; // Set to false to use cookies
-// const storageImplementation = useLocalStorage
-//   ? new LocalStorageSettingsStorage()
-//   : new CookieSettingsStorage();
+// Define settings storage
+ const useLocalStorage = true; // Set to false to use cookies
+ const storageImplementation = useLocalStorage
+   ? new LocalStorageSettingsStorage()
+   : new CookieSettingsStorage();
 
-// const settingsStorage = new SettingsStorage(storageImplementation);
-
-// settingsStorage.setItem('language', 'en', { days: 7 });
-// console.log(settingsStorage.getItem('language')); // Output: 'en'
-// settingsStorage.deleteItem('language');
+ const settingsStorage = new SettingsStorage(storageImplementation);

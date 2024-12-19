@@ -1,0 +1,61 @@
+.popup {
+  display: none; /* Domyślnie ukryte */
+  position: absolute;
+  top: 20px; /* Odstęp od przycisku */
+  left: 0px;
+  transform: none;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 220px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.popup h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+}
+
+.popup .close-button {
+  position: absolute;
+  top: -10px;
+  right: 0px;
+  width: auto;
+  background: none;
+  border: none;/*1px solid #ccc;*/
+  font-size: 24px;
+  font-weight: bold;
+  color: #ACE1AF;
+  cursor: pointer;
+  line-height: 1;
+  z-index: 1001;
+}
+
+.popup .close-button:hover {
+  color: #80c296;
+}
+
+.popup input[type="range"] {
+  width: 100%;
+}
+
+.popup-container.active .popup {
+  display: block; /* Pokazuje popup */
+  opacity: 1;
+}
+
+#SettingsButton {
+  display: flex;
+  position: absolute; /* Pozycjonowanie absolutne dla select */
+  top: -20px; /* Odległość od góry */
+  left: 0px; /* Odległość od prawej */
+  width: auto;
+  z-index: 2; /* Wyższy niż tytuł */
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
+}

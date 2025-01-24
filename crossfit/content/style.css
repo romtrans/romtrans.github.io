@@ -87,7 +87,7 @@ input {
 }
 
 input:disabled {
-  width: 42%;
+  width: 44%;
   background-color: #ACE1AF; /* Zielony kolor tła */
   color: #040; /* Ciemnozielony kolor tekstu */
   border: 1px solid #ccc; /* Delikatna ramka */

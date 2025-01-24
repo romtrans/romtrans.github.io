@@ -1,24 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // Funkcja tłumaczenia
-  function translatePage(lang) {
-    const elements = document.querySelectorAll("[data-i18n]");
-    elements.forEach((el) => {
-      const key = el.getAttribute("data-i18n");
-      let text = translations[lang][key];
-
-      if (translations[lang] && text) {
-        if (key === "serie_label") {
-          const id = el.parentElement.id
-          const serieNumText = String(id).replace("serie_", "");
-          const serieNum = parseInt(serieNumText);
-          text = text.replace("{number}", serieNum + 1); // Używamy numeru serii
-        }
-        el.innerHTML = text;
-      }
-    });
-  }
-
   const systemLang = navigator.language.substring(0, 2); // Wykrywa język systemu (np. "pl")
   const languageSelect = document.getElementById("language");
 
@@ -40,6 +21,37 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// Funkcja tłumaczenia
+function translatePage(lang, useContainer = false) {
+
+  const seriesContainer = document.getElementById("SeriesContainer") ?? document;
+  const container = useContainer ? seriesContainer : document;
+
+  const elements = container.querySelectorAll("[data-i18n]");
+  elements.forEach((el) => {
+    const key = el.getAttribute("data-i18n");
+    let text = translations[lang][key];
+
+    if (translations[lang] && text) {
+      if (key.endsWith("_number")) {
+        const number = el.getAttribute("data-i18n-number");
+        if (number) {
+          text = text.replace("{number}", number);
+        }
+      }
+      el.innerHTML = text;
+    }
+  });
+}
+
+function updateLocalisation() {
+  function updateTranslation() {
+    let currentLang = getSavedUserLanguage() ?? "pl";
+    translatePage(currentLang, true);
+  }
+  setTimeout(updateTranslation, 100);
+}
+
 function saveUserLanguage(langValue) {
   settingsStorage.setItem('UserLangKey', langValue);
 }
@@ -59,7 +71,7 @@ function translateText(key) {
 
 const translations = {
     pl: {
-    title: "Crossfit<br>Czas ćwiczeń",
+    title: "Crossfit<br>Planner czasu ćwiczeń",
     language_label: "Język:",
     add_series: "Dodaj serię",
     total_time_label: "Całkowity czas:",
@@ -70,9 +82,9 @@ const translations = {
     clock_delay_label: "Ustaw opóźnienie zegara:",
     delay_slider_label: "Aktualnie:",
     copyrights: "Prawa autorskie: &copy; 2024 No More Second",
-    version: "wersja 1.1.0",
+    version_number: "wersja {number}",
 
-    serie_label: "Seria {number}",
+    serie_label_number: "Seria {number}",
     work_time_label: "Czas pracy:",
     break_time_label: "Czas przerwy:",
     repeat_count_label: "Ilość stacji:",
@@ -82,7 +94,7 @@ const translations = {
     error_message: "Wystąpił błąd.",
   },
   en: {
-    title: "Crossfit<br>Exercise Time",
+    title: "Crossfit<br>Exercise Planner",
     language_label: "Language:",
     add_series: "Add Set",
     total_time_label: "Total Time:",
@@ -93,9 +105,9 @@ const translations = {
     clock_delay_label: "Set clock delay:",
     delay_slider_label: "Current:",
     copyrights: "Copyright: &copy; 2024 No More Second",
-    version: "Version 1.1.0",
+    version_number: "Version {number}",
 
-    serie_label: "Set {number}",
+    serie_label_number: "Set {number}",
     work_time_label: "Work time:",
     break_time_label: "Break time:",
     repeat_count_label: "Number of repetitions:",
@@ -116,9 +128,9 @@ const translations = {
     clock_delay_label: "クロック遅延を設定してください",
     delay_slider_label: "現在:",
     copyrights: "著作権: &copy; 2024 No More Second",
-    version: "バージョン 1.1.0",
+    version_number: "バージョン {number}",
 
-    serie_label: "シリーズ {number}",
+    serie_label_number: "シリーズ {number}",
     work_time_label: "作業時間:",
     break_time_label: "休憩時間:",
     repeat_count_label: "ステーション数:",

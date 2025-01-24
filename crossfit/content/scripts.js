@@ -103,7 +103,7 @@ class SerieView {
   generateHTML() {
     return `
       <div class="serie" id="${this.getDivId()}">
-      <h3 data-i18n="serie_label">Seria ${this.serieId+1}</h3>
+      <h3 data-i18n="serie_label_number" data-i18n-number="${this.serieId+1}">Seria ${this.serieId+1}</h3>
       
       <label for="${this.workTimeId}" data-i18n="work_time_label">Czas pracy (sekundy):</label><br>
       <button class="inputButton" onclick="serieViews[${this.serieId}].decValue('${this.workTimeId}')">-</button>
@@ -180,6 +180,7 @@ function addSerie() {
   newSerieView.setupDynamicUpdates();
 
   if (dynamicSerieId > 0) {
+    updateLocalisation();
     var seriesDiv = document.getElementById(newSerieView.getDivId());
     seriesDiv.scrollIntoView({ behavior: 'smooth' });
   }

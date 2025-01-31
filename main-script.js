@@ -37,3 +37,7 @@ function hideDetails() {
     // Pokazujemy ponownie sekcję z projektami
     document.querySelector('.container-main').classList.remove('hidden');
 }
+
+function openProject(url) {
+    window.open(url, '_blank');  // Otwiera link w nowej karcie
+}

@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 100vh;
+    background: url('./bamboo_bg.webp') no-repeat center center/cover;
+    padding: 20px;
+}
+.container {
+    max-width: 800px;
+    height: 90vh;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: all 0.5s ease-in-out;
+    overflow-y: auto;
+}
+h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+p {
+    color: #666;
+    margin-bottom: 20px;
+}
+.projects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+.project {
+    background: linear-gradient(135deg, #a8e063, #56ab2f);
+    padding: 20px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 200px;
+    aspect-ratio: 4 / 3;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+.project:hover {
+    transform: scale(1.2);
+}
+
+/* Ukrywanie kontenera z projektami */
+.hidden {
+    display: none;
+}
+
+.container-details {
+    display: none;  /* Początkowo schowane */
+    width: auto; /* Ustawi szerokość na auto, aby kontener dostosował się do zawartości */
+    padding: 10px;
+    box-sizing: border-box;
+    height: 100%;
+}
+.container-details img {
+    width: 50vw;   /* Szerokość na 50% szerokości ekranu */
+    height: 50vh;  /* Wysokość na 50% wysokości ekranu */
+    object-fit: contain; /* Zachowuje proporcje */
+}
+
+.back-button {
+    background: #333;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}

@@ -74,6 +74,38 @@ p {
     object-fit: contain; /* Zachowuje proporcje */
 }
 
+.container-support {
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    top: 16px; /* Odległość od dolnej krawędzi */
+    right: 16px; /* Odległość od prawej krawędzi */
+    z-index: 1000; /* Upewnia się, że jest na wierzchu */
+}
+
+.coffee-button {
+    position: relative; 
+    display: inline-block;
+}
+
+.coffee-button img {
+    display: block;
+    width: 117px;
+    height: 30px;
+}
+
+.coffee-button span {
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    transform: translate(-30%, -50%);
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+    white-space: nowrap;
+}
+
 .back-button {
     background: #333;
     color: white;
